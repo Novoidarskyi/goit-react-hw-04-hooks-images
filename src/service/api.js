@@ -3,9 +3,7 @@ function fetchImage(url) {
     if (response.ok) {
       return response.json();
     }
-    return Promise.reject(
-      new Error(`Нет изображений с запросом ${this.state.pictureName}`),
-    );
+    return Promise.reject(new Error('Нет изображений с запросом'));
   });
 }
 
