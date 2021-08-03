@@ -28,6 +28,16 @@ const App = () => {
       .then(images => setImages(images.hits), setStatus('resolved'));
   }, [URL]);
 
+  //  Метод для обновления страницы при запросе от клиента
+
+  //  useEffect(() => {
+  //   setStatus('pending');
+  //    setPictureName([]);
+  //    setPage(1)
+  //   fetchImage(URL).then(images => setImages(images.hits), setStatus('resolved'))
+  //     .catch(error => setError(error), setStatus('resolved'))
+  //  }, [URL, pictureName]);
+
   // Метод для загрузки дополнительных изображений на странице
 
   // useEffect(() => {
