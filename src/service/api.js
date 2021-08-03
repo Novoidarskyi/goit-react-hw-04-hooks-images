@@ -3,7 +3,7 @@ function fetchImage(url) {
     if (response.ok) {
       return response.json();
     }
-    return Promise.reject(new Error('Нет изображений с запросом'));
+    return Promise.reject(new Error('Нет изображений с данным запросом'));
   });
 }
 

@@ -17,35 +17,41 @@ const App = () => {
 
   const BASE_URL = 'https://pixabay.com/api';
   const KEY_API = '21851432-4720cbd8c8a1bfa0aa0ff2c82&';
-  const URL = `${BASE_URL}/?q=${pictureName}&page=${page}&key=${KEY_API}&image_type=photo&orientation=horizontal&per_page=12`;
 
-  // Метод для рендера страницы при первой загрузке / загрузки дополнительных изображений на странице
+  // Метод для рендера страницы / загрузки дополнительных изображений на странице
 
   useEffect(() => {
     setStatus('pending');
     async function fetchImageAPI() {
-      let images = await fetchImage(URL);
+      let images = await fetchImage(
+        `${BASE_URL}/?q=${pictureName}&page=${page}&key=${KEY_API}&image_type=photo&orientation=horizontal&per_page=12`,
+      );
       setImages(
         page === 1 ? images.hits : prevState => [...prevState, ...images.hits],
       );
       setStatus('resolved');
     }
-    fetchImageAPI();
-  }, [URL, page]);
-
-  //  Метод для обновления страницы при запросе от клиента
-
-  //  useEffect(() => {
-  //   setStatus('pending');
-  //    setPictureName([]);
-  //    setPage(1)
-  //   fetchImage(URL).then(images => setImages(images.hits), setStatus('resolved'))
-  //     .catch(error => setError(error), setStatus('resolved'))
-  //  }, [URL, pictureName]);
+    fetchImageAPI()
+      .catch(error => {
+        setError(error);
+        setStatus('rejected');
+      })
+      .finally(() => {
+        if (page > 1) {
+          window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: 'smooth',
+          });
+        }
+      });
+  }, [error, page, pictureName]);
 
   // Метод для получения введеного значения для поиска от клиента в Searchbar
 
-  const handleFormSubmit = pictureName => setPictureName(pictureName);
+  const handleFormSubmit = pictureName => {
+    setPictureName(pictureName);
+    setPage(1);
+  };
 
   // Метод для добавления изображений на странице при нажатии клиентом кнопки Load more
 
